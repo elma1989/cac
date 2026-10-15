@@ -5,7 +5,6 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { routes } from './app.routes';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBAquss1tno-IeIpY-Eje8vJby6niXs58s",
   authDomain: "code-a-cuisine-a9b83.firebaseapp.com",
   projectId: "code-a-cuisine-a9b83",
   storageBucket: "code-a-cuisine-a9b83.firebasestorage.app",
