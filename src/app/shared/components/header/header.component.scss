@@ -1,0 +1,17 @@
+@use '../../../../../public/assets/styles/mixin';
+
+:host {
+    @include mixin.size($h: 12dvh);
+    @include mixin.flex($ai: flex-end);
+    @include mixin.dpdlr;
+    @media (max-width: 667px) {
+        height: 7dvh;
+    }
+}
+
+img {
+    height: 3rem;
+    @media (max-width: 667px) {
+        height: 2rem;
+    }
+}

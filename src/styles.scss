@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+@use '../public/assets/styles/mixin';
+@import '../public/assets/styles/font';
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font: 16px Quicksand;
+}
+
+.content {
+    @include mixin.center;
+    max-width: 1920px;
+}

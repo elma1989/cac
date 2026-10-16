@@ -1,0 +1,25 @@
+@mixin center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+@mixin flex($jc: flex-start, $ai: flex-start) {
+    display: flex;
+    justify-content: $jc;
+    align-items: $ai;
+}
+
+@mixin size($w:100%, $h:100%) {
+    width: $w;
+    height: $h;
+}
+
+@mixin dpdlr {
+    padding: 0 4rem;
+    @media (max-width: 450px) {
+        padding: 0 1rem;
+    }
+}
