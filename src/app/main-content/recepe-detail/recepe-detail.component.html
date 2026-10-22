@@ -1,0 +1,98 @@
+<div class="content">
+    <header cac-header></header>
+    <div class="content__main-area">
+        <!-- TODO: nav-back link -->
+        <div class="recepe-area">
+            @if (editable()) {
+                <form [formGroup]="recepeForm">
+                    <header claas="header-edit">
+                        <div class="title-area">
+                            <div class="inputfield">
+                                <p class="title-area__duration">
+                                    <img src="assets/icons/clock.png">
+                                    Cooking Time: <input type="number" name="duration" min="5" formControlName="duration"> min
+                                </p>
+                                <p class="error-msg">{{ errorMessage('duration') }}</p>
+                            </div>
+                            <div class="inputfield">
+                                <input name="title" formControlName="title">
+                                <p class="error-msg">{{ errorMessage('title') }}</p>
+                            </div>
+                            <div class="title-area__chefs">
+                                <span class="mob-none">Cooking person: 2</span>
+                                <div class="title-area__chefs-labels">
+                                    @for (chef of availableChefs(); track chef) {
+                                        <img src="assets/icons/chefs/{{chef}}.png">
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="data-area">
+                            <p class="data-area__labels">
+                                @for (label of foodCategories; track label) {
+                                    <span class="label-tag"
+                                        [class.label-tag--active]="label == selectedFoodCategory"
+                                        (click)="selectedFoodCategory = label">
+                                        {{ label == FoodCategory.ALL ? "No pref." : label}}
+                                    </span>
+                                }
+                            </p>
+                            <div class="data-area__nutrials">
+                                <p>Nutritional infomation</p>
+                                <table>
+                                    <tr><th>Energy</th><th>Protein</th><th>Fat</th><th>Carbs</th></tr>
+                                    <tr>
+                                        <td><input type="number" name="energy" min="0" formControlName="energy"> kcal</td>
+                                        <td><input type="number" name="protein" min="0" formControlName="protein">g</td>
+                                        <td><input type="number" name="fat" min="0" formControlName="fat">g</td>
+                                        <td><input type="number" name="carbs" min="0" formControlName="carbs">g</td>
+                                    </tr>
+                                </table>
+                                <div class="error-container">
+                                    <p class="error-msg">{{ errorMessage('energy') }}</p>
+                                    <p class="error-msg">{{ errorMessage('protein') }}</p>
+                                    <p class="error-msg">{{ errorMessage('fat') }}</p>
+                                    <p class="error-msg">{{ errorMessage('carbs') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                </form>
+            } @else {
+                <header>
+                    <div class="title-area">
+                        <p class="title-area__duration">
+                            <img src="assets/icons/clock.png">
+                            Cooking Time: {{recepe().duration}}min
+                        </p>
+                        <h1>{{recepe().title}}</h1>
+                        <div class="title-area__chefs">
+                            <span class="mob-none">Cooking person: 2</span>
+                            <div class="title-area__chefs-labels">
+                                @for (chef of availableChefs(); track chef) {
+                                    <img src="assets/icons/chefs/{{chef}}.png">
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="data-area">
+                        <p class="data-area__labels">
+                            @if (recepe().category != FoodCategory.ALL) {
+                                <span class="label-tag label-tag--active">{{recepe().category}}</span>
+                            }
+                            <span class="label-tag label-tag--active">{{recepe().durationLabel}}</span>
+                            <span class="label-tag label-tag--like"><b>♡</b>{{recepe().likes}}</span>
+                        </p>
+                        <div class="data-area__nutrials">
+                            <p>Nutritional infomation</p>
+                            <table>
+                                <tr><th>Energy</th><th>Protein</th><th>Fat</th><th>Carbs</th></tr>
+                                <tr><td>{{recepe().energy}} kcal</td><td>{{recepe().protein}}g</td><td>{{recepe().fat}}g</td><td>{{recepe().carbs}}g</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </header>
+            }
+        </div>
+    </div>
+</div>

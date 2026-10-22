@@ -1,0 +1,24 @@
+@use './colors';
+
+.label-tag {
+    background: colors.$creme;
+    padding: 6px 12px;
+    border-radius: 2rem;
+    color: colors.$darkgreen;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+        background: colors.$creme-h;
+    }
+
+    &--active, &--active:hover {
+        background: rgba(57,96,57,0.2);
+        cursor: default;
+    }
+
+    &--like, &--like:hover {
+        background: rgba(57,96,57,0.3);
+        cursor: default;
+    }
+}

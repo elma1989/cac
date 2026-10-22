@@ -5,7 +5,7 @@ import { Direction } from "./direction";
 import { RecepeIngredient } from "./recepe-ingredient";
 
 export class Recepe {
-    readonly id: string;
+    id: string;
     private _title: string;
     private _duaration: number;
     private _category: FoodCategory;
@@ -16,6 +16,7 @@ export class Recepe {
     private _carbs: number;
     private _fat: number;
     private _protein: number;
+    private _likes: number;
 
     constructor(data: RecepeData = {
         id: '',
@@ -28,7 +29,8 @@ export class Recepe {
         energy: 0,
         carbs: 0,
         fat: 0,
-        protein: 0
+        protein: 0,
+        likes: 0
     }) {
         this.id = data.id;
         this._title = data.title;
@@ -41,6 +43,7 @@ export class Recepe {
         this._carbs = data.carbs;
         this._fat = data.fat;
         this._protein = data.protein;
+        this._likes = data.likes;
     }
 
     get title(): string { return this._title; }
@@ -68,4 +71,6 @@ export class Recepe {
     get fat(): number { return this._fat; }
 
     get protein(): number { return this._protein; }
+
+    get likes(): number { return this._likes; }
 }

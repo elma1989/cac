@@ -9,10 +9,11 @@ export interface RecepeData {
     category: FoodCategory;
     cuisine: Cuisine;
     duration: number;
+    ingredients: RecepeIngredient[];
+    directions: Direction[];
     energy: number;
     fat: number;
     carbs: number;
     protein: number;
-    ingredients: RecepeIngredient[];
-    directions: Direction[];
+    likes: number;
 }

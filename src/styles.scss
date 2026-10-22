@@ -1,1 +1,50 @@
-/* You can add global styles to this file, and also import other style files */
+@use '../public/assets/styles/mixin';
+@use '../public/assets/styles/colors';
+@use '../public/assets/styles/font';
+@use '../public/assets/styles/label';
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font: 16px Quicksand;
+    color: colors.$cacGreen;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+a:link, a:visited, a:active {
+    color: colors.$cacGreen;
+    text-decoration: none
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    vertical-align: middle;
+}
+
+.content {
+    max-width: 1920px;
+    @include mixin.center;
+
+    &__main-area {
+        @include mixin.size;
+        min-height: 88dvh;
+        @include mixin.dpdlr;
+    }
+}
+
+@media (max-width: 667px) {
+    .mob-none {
+        display: none;
+    }
+}
