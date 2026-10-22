@@ -6,10 +6,12 @@
     width: 100%;
 }
 
-@mixin flex($jc: flex-start, $ai: flex-start) {
+@mixin flex($jc: flex-start, $ai: flex-start, $fd: row, $gap: 0) {
     display: flex;
     justify-content: $jc;
     align-items: $ai;
+    flex-direction: $fd;
+    gap: $gap;
 }
 
 @mixin size($w:100%, $h:100%) {
@@ -19,7 +21,7 @@
 
 @mixin dpdlr {
     padding: 0 4rem;
-    @media (max-width: 450px) {
+    @media (max-width: 1024px) {
         padding: 0 1rem;
     }
 }

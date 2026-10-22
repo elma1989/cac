@@ -1,0 +1,191 @@
+@use '../../../../public/assets/styles/colors';
+@use '../../../../public/assets/styles/mixin';
+
+input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: colors.$cacGreen;
+}
+
+[type=number] {
+    height: 1rem;
+    font-size: 1rem;
+    width: 2rem;
+    appearance: textfield;
+    -moz-appearance: textfield;
+    
+    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+td > [type=number] {
+    color: colors.$darkgreen;
+}
+
+.recepe-area {
+    padding: 3rem;
+    border: 3px solid colors.$creme;
+    border-radius: 1.5rem;
+    header {
+        @include mixin.flex($jc: space-between);
+        background: colors.$creme;
+        padding: 1.5rem;
+        border-radius: 1.5rem;
+    }
+    @media (max-width: 1024px) {
+        padding: 0;
+        border: none;
+    }
+}
+
+.inputfield {
+    width: 100%;
+}
+
+[name=title] {
+    @include mixin.size($w: 95%, $h: 2.5rem);
+    color: colors.$cacGreen;
+    font-size: 2rem;
+    font-weight: semi-bold;
+}
+
+.error-msg {
+    color: colors.$errorRed;
+    height: 1rem;
+    margin-top: 0.25rem;
+}
+
+.title-area {
+    width: 50%;
+    @include mixin.flex($fd: column, $jc: center, $gap:1rem);
+    &__duration {
+        @include mixin.flex($ai: center, $gap: 0.5rem);
+        img {
+            height: 1.5rem;
+        }
+    }
+
+    h1 {
+        height: 6rem;
+    }
+
+    &__chefs {
+        width: 100%;
+        @include mixin.flex($gap: 1rem);
+        span {
+            min-width: 9rem;
+        }
+        &-labels {
+            display: grid;
+            flex: 1;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+    }
+}
+
+.data-area {
+    width: 35%;
+    @include mixin.flex($fd: column, $jc:center, $gap: 1.5rem);
+    
+    &__labels {
+        width: 100%;
+        @include mixin.flex($gap: 1rem);
+    }
+    
+    &__nutrials {
+        color: colors.$darkgreen;
+        width: 100%;
+
+        table,tr {
+            width: 100%;
+            text-align: center;
+        }
+
+        th {
+            text-align: left;
+        }
+    }
+}
+
+// Styles in Edit-Mode
+@media(max-width: 1340px) {
+    .recepe-area .header-edit {
+        @include mixin.flex($fd: column, $gap: 1rem);
+        .title-area {
+            width: 100%;
+
+            &__chefs-labels {
+                display: flex;
+                @media (max-width: 667px) {
+                    display: grid;
+                }
+            }
+
+            @media (max-width: 667px) {
+                [name=title] {
+                    font-size: 1.5rem;
+                }
+            }
+        }
+
+        .data-area {
+            width: 50%;
+            
+            @media(max-width: 1100px) {
+                width: 70%;
+            }
+
+            @media(max-width: 667px) {
+                width: 100%;
+                flex-direction: column-reverse;
+
+                &__labels {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                }
+            }
+        }
+    }
+}
+
+// Styles in Default-Mode
+@media(max-width: 1100px) {
+    .recepe-area > header {
+        @include mixin.flex($fd: column, $gap: 1rem);
+        .title-area {
+            width: 100%;
+            &__chefs-labels {
+                display: flex;
+                @media (max-width: 667px) {
+                    display: grid;
+                }
+            }
+
+            @media (max-width: 667px) {
+                h1 {
+                    height: 3.5rem;
+                    font-size: 1.5rem;
+                    @media (max-width: 350px) {
+                        font-size: 1.3rem;
+                    }
+                }
+            }
+        }
+
+        .data-area {
+            width: 70%;
+            @media(max-width: 1024px) {
+                width: 50%;
+            }
+
+            @media(max-width: 667px) {
+                width: 100%;
+                flex-direction: column-reverse;
+            }
+        }
+    }
+}
