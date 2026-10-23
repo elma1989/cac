@@ -17,10 +17,4 @@ export class RecepeDetailIngredientsComponent {
   protected toggleIngredients() {
     this.ingredientsShown.set(!this.ingredientsShown());
   }
-
-  /** Combines amound and unit of ingredient in recepe */
-  protected recepeIngredientAmount(ingredient: RecepeIngredient): string {
-    if (ingredient.unit == 'piece') return `${ingredient.name} ${ingredient.unit}`;
-    return ingredient.amount + ingredient.unit;
-  }
 }

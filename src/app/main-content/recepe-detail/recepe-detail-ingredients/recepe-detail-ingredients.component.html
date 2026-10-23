@@ -8,8 +8,8 @@
                     <table>
                         @for (ingredient of recepeIngredients(); track ingredient) {
                             <tr>
-                                <td class="td-amout">● {{ recepeIngredientAmount(ingredient) }}</td>
-                                <td>{{ ingredient.name }}</td>
+                                <td class="td-amout">● {{ ingredient.value }}</td>
+                                <td>{{ ingredient.ingredient.name }}</td>
                             </tr>
                         }
                     </table>
