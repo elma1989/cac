@@ -1,4 +1,4 @@
-import { Component, input, InputSignal, OnInit } from '@angular/core';
+import { Component, input, InputSignal, OnInit, signal, WritableSignal } from '@angular/core';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { Recepe } from '../../shared/classes/recepe';
 import { FoodCategory } from '../../shared/enums/food-category';
@@ -14,6 +14,8 @@ export class RecepeDetailComponent implements OnInit{
   recepe: InputSignal<Recepe> = input.required<Recepe>();
   chefs: InputSignal<number> = input<number>(2);
   editable: InputSignal<boolean> = input<boolean>(false);
+
+  customRecepe: WritableSignal<Recepe> = signal<Recepe>(new Recepe());
 
   protected recepeForm = new FormGroup({
     title: new FormControl<string>('', {validators: [Validators.required]}),
@@ -33,15 +35,25 @@ export class RecepeDetailComponent implements OnInit{
     this.instandTrimTitle();
   }
 
+  // #region Initialisation
   ngOnInit(): void {
     this.selectedFoodCategory = this.recepe().category;
+    this.customRecepe.set(this.recepe());
+    this.loadFromStorage();
     this.initForm();
   }
+
+  /** Loads recepe from local storage. */
+  loadFromStorage() {
+    const recepe = Recepe.load();
+    if (recepe) this.customRecepe.set(recepe);
+  }
+  // #endregion
 
   // #region From-Action
   /** Sets start values from current recepe. */
   private initForm() {
-    const recepe = this.recepe();
+    const recepe = this.customRecepe();
     this.recepeForm.setValue({
       title: recepe.title,
       duration: recepe.duration,
