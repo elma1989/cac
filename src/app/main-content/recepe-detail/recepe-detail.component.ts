@@ -3,10 +3,13 @@ import { HeaderComponent } from '../../shared/components/header/header.component
 import { Recepe } from '../../shared/classes/recepe';
 import { FoodCategory } from '../../shared/enums/food-category';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { RecepeDetailIngredientsComponent } from './recepe-detail-ingredients/recepe-detail-ingredients.component';
+import { RecepeIngredient } from '../../shared/classes/recepe-ingredient';
+import { EditState } from '../../shared/enums/edit-state';
 
 @Component({
   selector: 'recepe-detail',
-  imports: [HeaderComponent, ReactiveFormsModule],
+  imports: [HeaderComponent, ReactiveFormsModule, RecepeDetailIngredientsComponent],
   templateUrl: './recepe-detail.component.html',
   styleUrl: './recepe-detail.component.scss'
 })
@@ -93,6 +96,18 @@ export class RecepeDetailComponent implements OnInit{
     return '';
   }
   // #endregion
+
+  handleChangedIngredients(ingredients: RecepeIngredient[]) {
+    this.customRecepe.update(recepe => {
+      const tempRecepe = new Recepe({
+        ...recepe.data,
+        ingredients: ingredients
+      });
+      tempRecepe.state = EditState.EDITED;
+      tempRecepe.save();
+      return tempRecepe;
+    });
+  }
 
   /**
    * Gets a list of available chefs.

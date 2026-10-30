@@ -64,6 +64,8 @@ export class Recepe implements DataObject {
     get cuisine(): Cuisine { return this._cuisine; }
 
     get ingredients(): RecepeIngredient[] { return this._ingredients; }
+
+    set ingredients(ingredients: RecepeIngredient[]) { this._ingredients = ingredients; }
     
     get directions(): Direction[] { return this._directions; }
 
@@ -80,6 +82,21 @@ export class Recepe implements DataObject {
     get state(): EditState { return this._state; }
 
     set state(state: EditState) { this._state = state; }
+
+    get data(): RecepeData { return {
+        id: this.id,
+        title: this.title,
+        category: this.category,
+        cuisine: this.cuisine,
+        ingredients: this.ingredients,
+        directions: this.directions,
+        duration: this.duration,
+        energy: this.energy,
+        carbs: this.carbs,
+        fat: this.fat,
+        protein: this.protein,
+        likes: this.likes
+    }; }
 
     toJSON(): Record<string, any> { return {
         ...this.data,

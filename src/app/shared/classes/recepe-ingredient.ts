@@ -8,6 +8,7 @@ export class RecepeIngredient implements DataObject {
     private _ingredient!: Ingredient;
     private _amount!: number;
     private _state: EditState = EditState.DEFAULT;
+    private _editMode: boolean = false;
 
     constructor(ingredient: Ingredient, id: string = '', amount: number = 0) {
         this.id = id;
@@ -30,6 +31,11 @@ export class RecepeIngredient implements DataObject {
     get state(): EditState { return this._state; }
 
     set state(state: EditState) { this._state = state; }
+
+    get editMode(): boolean { return this._editMode; }
+
+    set editMode(state: boolean) { this._editMode = state; }
+
     toJSON(): Record<string, any> { return {
         id: this.id,
         ingredient: this.ingredient.toJSON(),
