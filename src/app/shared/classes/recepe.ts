@@ -1,10 +1,12 @@
 import { Cuisine } from "../enums/cuisine";
+import { EditState } from "../enums/edit-state";
 import { FoodCategory } from "../enums/food-category";
-import { RecepeData } from "../interfaces/recepe-data";
+import { DataObject } from "../interfaces/data-object";
+import { RecepeData, RecepeStorage } from "../interfaces/recepe-data";
 import { Direction } from "./direction";
 import { RecepeIngredient } from "./recepe-ingredient";
 
-export class Recepe {
+export class Recepe implements DataObject {
     id: string;
     private _title: string;
     private _duaration: number;
@@ -17,6 +19,7 @@ export class Recepe {
     private _fat: number;
     private _protein: number;
     private _likes: number;
+    private _state: EditState = EditState.DEFAULT;
 
     constructor(data: RecepeData = {
         id: '',
@@ -60,7 +63,9 @@ export class Recepe {
 
     get cuisine(): Cuisine { return this._cuisine; }
 
-    get indredients(): RecepeIngredient[] { return this._ingredients; }
+    get ingredients(): RecepeIngredient[] { return this._ingredients; }
+
+    set ingredients(ingredients: RecepeIngredient[]) { this._ingredients = ingredients; }
     
     get directions(): Direction[] { return this._directions; }
 
@@ -73,4 +78,75 @@ export class Recepe {
     get protein(): number { return this._protein; }
 
     get likes(): number { return this._likes; }
+
+    get state(): EditState { return this._state; }
+
+    set state(state: EditState) { this._state = state; }
+
+    get data(): RecepeData { return {
+        id: this.id,
+        title: this.title,
+        category: this.category,
+        cuisine: this.cuisine,
+        ingredients: this.ingredients,
+        directions: this.directions,
+        duration: this.duration,
+        energy: this.energy,
+        carbs: this.carbs,
+        fat: this.fat,
+        protein: this.protein,
+        likes: this.likes
+    }; }
+
+    toJSON(): Record<string, any> { return {
+        ...this.data,
+        ingredients: this.ingredients.map(ing => ing.toJSON()),
+        directions: this.directions.map(dir => dir.toJSON())
+    }; }
+
+    toJSONLocal(): Record<string, any> { return {
+        ...this.data,
+        ingredients: this.ingredients.map(ing => ing.toJSONLocal()),
+        directions: this.directions.map(dir => dir.toJSONLocal())
+    }; }
+
+    /**
+     * Gets a recepe from storage.
+     * @param data - Data from storage.
+     * @returns Instance of Recepe.
+     */
+    static fromStrorage(data: RecepeStorage): Recepe {
+        const temp = new Recepe({
+            id: data.id,
+            title: data.title,
+            duration: data.duration,
+            ingredients: data.ingredients.map(ing => RecepeIngredient.fromStorage(ing)),
+            directions: data.directions.map(dir => Direction.fromStorage(dir)),
+            fat: data.fat,
+            carbs: data.carbs,
+            protein: data.protein,
+            energy: data.energy,
+            likes: data.likes,
+            category: data.category,
+            cuisine: data.cuisine
+        });
+        temp.state = data.state;
+        return temp;
+    }
+
+    /**
+     * Loads data from storage.
+     * @returns Founded recepe or null, if not found.
+     */
+    static load() {
+        const storage = localStorage.getItem('edited-recepe');
+        if (!storage) return null;
+        const data = JSON.parse(storage);
+        return Recepe.fromStrorage(data);
+    }
+
+    /** Saves recepe data in local storage. */
+    save() {
+        localStorage.setItem('edited-recepe', JSON.stringify(this.toJSONLocal()));
+    }
 }

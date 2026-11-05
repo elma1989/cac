@@ -1,12 +1,15 @@
-import { Component, input, InputSignal, OnInit } from '@angular/core';
+import { Component, input, InputSignal, OnInit, signal, WritableSignal } from '@angular/core';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { Recepe } from '../../shared/classes/recepe';
 import { FoodCategory } from '../../shared/enums/food-category';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { RecepeDetailIngredientsComponent } from './recepe-detail-ingredients/recepe-detail-ingredients.component';
+import { RecepeIngredient } from '../../shared/classes/recepe-ingredient';
+import { EditState } from '../../shared/enums/edit-state';
 
 @Component({
   selector: 'recepe-detail',
-  imports: [HeaderComponent, ReactiveFormsModule],
+  imports: [HeaderComponent, ReactiveFormsModule, RecepeDetailIngredientsComponent],
   templateUrl: './recepe-detail.component.html',
   styleUrl: './recepe-detail.component.scss'
 })
@@ -14,6 +17,8 @@ export class RecepeDetailComponent implements OnInit{
   recepe: InputSignal<Recepe> = input.required<Recepe>();
   chefs: InputSignal<number> = input<number>(2);
   editable: InputSignal<boolean> = input<boolean>(false);
+
+  customRecepe: WritableSignal<Recepe> = signal<Recepe>(new Recepe());
 
   protected recepeForm = new FormGroup({
     title: new FormControl<string>('', {validators: [Validators.required]}),
@@ -33,15 +38,25 @@ export class RecepeDetailComponent implements OnInit{
     this.instandTrimTitle();
   }
 
+  // #region Initialisation
   ngOnInit(): void {
     this.selectedFoodCategory = this.recepe().category;
+    this.customRecepe.set(this.recepe());
+    this.loadFromStorage();
     this.initForm();
   }
+
+  /** Loads recepe from local storage. */
+  loadFromStorage() {
+    const recepe = Recepe.load();
+    if (recepe) this.customRecepe.set(recepe);
+  }
+  // #endregion
 
   // #region From-Action
   /** Sets start values from current recepe. */
   private initForm() {
-    const recepe = this.recepe();
+    const recepe = this.customRecepe();
     this.recepeForm.setValue({
       title: recepe.title,
       duration: recepe.duration,
@@ -81,6 +96,18 @@ export class RecepeDetailComponent implements OnInit{
     return '';
   }
   // #endregion
+
+  handleChangedIngredients(ingredients: RecepeIngredient[]) {
+    this.customRecepe.update(recepe => {
+      const tempRecepe = new Recepe({
+        ...recepe.data,
+        ingredients: ingredients
+      });
+      tempRecepe.state = EditState.EDITED;
+      tempRecepe.save();
+      return tempRecepe;
+    });
+  }
 
   /**
    * Gets a list of available chefs.

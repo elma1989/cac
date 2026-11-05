@@ -12,7 +12,7 @@ import { Recepe } from '../classes/recepe';
 interface RecepeIngredientData {
   id: string;
   recepe: string;
-  ingredient: string | Ingredient | undefined;
+  ingredient: string | Ingredient | RecepeIngredient | undefined;
   amount: number;
 }
 
@@ -53,13 +53,13 @@ export class FirestoreService {
     const ingredients = this.ingredients();
     return this.recepeIngredientData
       .filter(recepeData => recepeData.recepe == recepeID)
-      .map(recpeData => {
-        recpeData.ingredient = ingredients.find(ing => ing.id == recpeData.ingredient);
-        return recpeData;
+      .map(recepeData => {
+        recepeData.ingredient = ingredients.find(ing => ing.id == recepeData.ingredient);
+        return recepeData;
       })
       .filter(recepeData => recepeData.ingredient != undefined)
-      .map(recepeData => recepeData.ingredient = new RecepeIngredient(recepeData.id, recepeData.ingredient as Ingredient, recepeData.amount))
-      .sort((a,b) => a.name.localeCompare(b.name));
+      .map(recepeData => recepeData.ingredient = new RecepeIngredient(recepeData.ingredient as Ingredient, recepeData.id, recepeData.amount))
+      .sort((a,b) => a.ingredient.name.localeCompare(b.ingredient.name));
   }
 
   /**

@@ -1,0 +1,1 @@
+export type BaseUnit = 'g' | 'ml' | 'piece';

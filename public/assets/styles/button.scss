@@ -1,0 +1,44 @@
+@use './colors';
+
+button, [type=submit], [type=button] {
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+.btn-drop-down {
+    color: colors.$olive;
+    padding: 4px;
+    border-radius: 1rem;
+    border: 1px solid transparent;
+    &:hover {
+        border-color: colors.$olive;
+    }
+    &:focus {
+        border-color: colors.$oliveT;
+    }
+}
+
+.btn-add {
+    background: url(../icons/btns/add/add-default.png) center / contain no-repeat;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.btn-edit {
+    background: url(../icons/btns/edit/edit-default.png) center / contain no-repeat;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.btn-check {
+    background: url(../icons/btns/check/check-default.png) center / contain no-repeat;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.btn-delete {
+    background: url(../icons/btns/delete/delete-default.png) center / contain no-repeat;
+    width: 1.5rem;
+    height: 1.5rem;
+}

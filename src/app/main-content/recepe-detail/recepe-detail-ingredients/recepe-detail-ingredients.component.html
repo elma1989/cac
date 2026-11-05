@@ -1,0 +1,21 @@
+<header class="recepe-datail-section">
+    <h2>Ingredients</h2>
+</header>
+<div class="ingredient-area" [class.shown]="ingredientsShown()">
+    <div class="ingredient-container">
+                <div class="ingredients-block">
+                    <h3>Recepe-Ingredients</h3>
+                    <table>
+                        @for (ingredient of recepeIngredients(); track ingredient) {
+                            <tr>
+                                <td class="td-amout">● {{ ingredient.value }}</td>
+                                <td>{{ ingredient.ingredient.name }}</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+    </div>
+</div>
+<div class="hide-control desk-none">
+    <button class="btn-drop-down" (click)="toggleIngredients()">{{ ingredientsShown() ? 'Hide ingredients ▲' : 'Show ingredients ▼' }}</button>
+</div>

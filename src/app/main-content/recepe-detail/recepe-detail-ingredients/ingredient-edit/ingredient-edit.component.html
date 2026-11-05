@@ -1,0 +1,35 @@
+@if (ingredient().editMode) {
+    <form [formGroup]="editForm" (ngSubmit)="onSubmitChanges()">
+        <div class="td-amount">
+            <input type="number" name="ing-amout" formControlName="amount">
+            <select name="ing-unit" formControlName="unit">
+                <option value="g">g</option>
+                <option value="ml">ml</option>
+                <option value="piece">piece</option>
+            </select>
+        </div>
+        <div class="td-ing-name">
+            <input #ingredientInput type="search" name="ing-name" autocomplete="off" formControlName="name"
+            (keydown)="onKeyDown($event)">
+            <ul>
+                @for (ingredient of foundIngredients(); track ingredient.name; let i = $index) {
+                    @if (!this.selectedIngredient()) {
+                        <li [class.active]="activeIngredientIndex == i"
+                        (click)="selectIngredient(ingredient)">{{ ingredient.name }}</li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="td-action">
+            <input type="submit" value="" class="btn-check">
+            <input type="button" value="" class="btn-delete" (click)="deleteIngredient()">
+        </div>
+    </form>
+} @else {
+    <div class="td-amount">{{ ingredient().value }}</div>
+    <div class="td-ing-name">{{ ingredient().ingredient.name }}</div>
+    <div class="td-action">
+        <button class="btn-edit" (click)="enableEdit()"></button>
+        <button class="btn-delete" (click)="deleteIngredient()"></button>
+    </div>
+}
